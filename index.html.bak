@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mašnica | Ručno pravljene gumice za kosu — Pančevo</title>
+    <meta name="description" content="Ručno pravljene gumice za kosu od kvalitetnih materijala. Naručite online, preuzmite u Pančevu ili primite na kućnu adresu.">
+    <meta name="theme-color" content="#c4654a">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎀</text></svg>">
+    <meta property="og:title" content="Mašnica — Ručno pravljene gumice za kosu">
+    <meta property="og:description" content="Ručno pravljene gumice za kosu iz Pančeva. Kvalitetni materijali, lokalna dostava.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="sr_RS">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Mašnica",
+        "description": "Ručno pravljene gumice za kosu od kvalitetnih materijala.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Pančevo",
+            "addressCountry": "RS"
+        },
+        "areaServed": ["Pančevo", "Beograd", "Srbija"],
+        "telephone": "+381600000000",
+        "email": "info@example.com"
+    }
+    </script>
+</head>
+<body>
+
+    <div class="demo-notice" role="status">
+        <div class="container">
+            <p>Ovo je demo verzija sajta — slike i podaci su ilustrativni.</p>
+        </div>
+    </div>
+
+    <a class="skip-link" href="#main">Preskoči na sadržaj</a>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="#" aria-label="Mašnica — početna strana">Mašnica</a>
+            <nav class="nav-menu" id="nav-menu" aria-label="Glavna navigacija">
+                <a href="#products">Proizvodi</a>
+                <a href="#about">O nama</a>
+                <a href="#how-to-order">Naručivanje</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+            <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Otvori meni">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main">
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <span class="label">Ručno pravljeno u Pančevu</span>
+                    <h1>Gumice za kosu pravljene s&nbsp;pažnjom, za svaki dan</h1>
+                    <p class="hero-desc">Svaki komad je ručno napravljen od pažljivo odabranih materijala. Idealne za svakodnevnu upotrebu ili kao poseban poklon.</p>
+                    <div class="hero-cta">
+                        <a href="#products" class="btn btn-primary">Pogledaj proizvode</a>
+                        <a href="#contact" class="btn btn-outline">Kontaktiraj nas</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img
+                        src="https://images.pexels.com/photos/6044139/pexels-photo-6044139.jpeg?auto=compress&cs=tinysrgb&w=560&h=400"
+                        alt="Kolekcija ručno pravljenih scrunchie gumica u raznim bojama"
+                        width="560" height="400"
+                        fetchpriority="high"
+                    >
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="section section-alt">
+            <div class="container about-grid">
+                <div class="about-content">
+                    <span class="label">O nama</span>
+                    <h2>Mala radionica, velika pažnja</h2>
+                    <p>Mašnica je nastala iz ljubavi prema ručnom radu i lepim detaljima. Svaka gumica je napravljena ručno u našoj maloj radionici u Pančevu, od materijala koje pažljivo biramo.</p>
+                    <p>Verujemo da i najmanji aksesoar može da napravi razliku u tvom danu. Zato svaki komad pravimo s istom pažnjom — bio to poklon ili nešto samo za tebe.</p>
+                    <ul class="about-highlights">
+                        <li>Ručno pravljeno u Pančevu</li>
+                        <li>Kvalitetni materijali — saten, pamuk, pliš</li>
+                        <li>Moguće kombinacije boja po želji</li>
+                        <li>Lokalna dostava i slanje poštom širom Srbije</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img
+                        src="https://images.pexels.com/photos/5128656/pexels-photo-5128656.jpeg?auto=compress&cs=tinysrgb&w=560&h=400"
+                        alt="Žena vezuje kosu scrunchie gumicom"
+                        width="560" height="400"
+                        loading="lazy"
+                    >
+                </div>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section id="products" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">Katalog</span>
+                    <h2>Naši proizvodi</h2>
+                    <p>Izaberi model koji ti se sviđa i naruči jednim klikom.</p>
+                </div>
+                <div class="filter-bar">
+                    <label for="category-filter">Kategorija:</label>
+                    <select id="category-filter">
+                        <option value="all">Sve</option>
+                    </select>
+                </div>
+                <div id="product-grid" class="product-grid" aria-live="polite">
+                    <p class="status-msg">Učitavanje proizvoda…</p>
+                </div>
+                <noscript>
+                    <p class="status-msg">Potrebno je uključiti JavaScript za prikaz kataloga.</p>
+                </noscript>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="testimonials" class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">Utisci</span>
+                    <h2>Šta kažu naši kupci</h2>
+                    <p>Zadovoljni kupci su naša najbolja preporuka.</p>
+                </div>
+                <div id="testimonials-grid" class="testimonials-grid"></div>
+            </div>
+        </section>
+
+        <!-- How to Order -->
+        <section id="how-to-order" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">Jednostavno</span>
+                    <h2>Kako da naručiš</h2>
+                    <p>Tri koraka od izbora do tvog novog aksesoarа.</p>
+                </div>
+                <ol class="steps-grid">
+                    <li class="step-card">
+                        <span class="step-num">1</span>
+                        <h3>Izaberi proizvod</h3>
+                        <p>Pregledaj katalog i pronađi gumice koje ti se sviđaju.</p>
+                    </li>
+                    <li class="step-card">
+                        <span class="step-num">2</span>
+                        <h3>Pošalji upit</h3>
+                        <p>Klikni „Naruči" na proizvodu ili nam piši putem forme, WhatsApp-a ili telefona.</p>
+                    </li>
+                    <li class="step-card">
+                        <span class="step-num">3</span>
+                        <h3>Preuzmi ili primi</h3>
+                        <p>Dogovaramo detalje i šaljemo ti narudžbinu — lično, kurirski ili poštom.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Delivery -->
+        <section id="delivery" class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">Isporuka</span>
+                    <h2>Dostava i preuzimanje</h2>
+                    <p>Izaberi način koji ti najviše odgovara.</p>
+                </div>
+                <div class="delivery-grid">
+                    <div class="delivery-card">
+                        <div class="delivery-icon">📍</div>
+                        <h3>Lično preuzimanje</h3>
+                        <p>Preuzmi svoju narudžbinu direktno u Pančevu. Besplatno.</p>
+                    </div>
+                    <div class="delivery-card">
+                        <div class="delivery-icon">🚗</div>
+                        <h3>Dostava po Pančevu i Beogradu</h3>
+                        <p>Lična dostava ili kurirska služba. Cena po dogovoru.</p>
+                    </div>
+                    <div class="delivery-card">
+                        <div class="delivery-icon">📦</div>
+                        <h3>Slanje poštom</h3>
+                        <p>Za ostale gradove u Srbiji. Poštarina po cenovniku pošte.</p>
+                    </div>
+                </div>
+                <div class="payment-info">
+                    <h3>💳 Načini plaćanja</h3>
+                    <div class="payment-options">
+                        <div class="payment-option">
+                            <strong>Gotovina</strong>
+                            <span>Prilikom ličnog preuzimanja</span>
+                        </div>
+                        <div class="payment-option">
+                            <strong>Uplata na račun</strong>
+                            <span>Pre slanja — podaci stižu po dogovoru</span>
+                        </div>
+                        <div class="payment-option">
+                            <strong>Pouzeće</strong>
+                            <span>Plaćanje kuriru pri dostavi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="label">Najčešća pitanja</span>
+                    <h2>Pitanja i odgovori</h2>
+                    <p>Odgovori na pitanja koja najčešće dobijamo.</p>
+                </div>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>Od kojih materijala su napravljene gumice?</summary>
+                        <div class="faq-answer">
+                            <p>Koristimo kvalitetne materijale poput satena, pamuka, pliša i šifona — mekane tkanine bez metalnih kopči ili oštrih delova.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Koliko vremena traje izrada?</summary>
+                        <div class="faq-answer">
+                            <p>Standardna izrada traje 2–3 radna dana. Za veće narudžbine ili posebne kombinacije boja, rok može biti do 5 radnih dana.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Mogu li da naručim posebne boje ili kombinacije?</summary>
+                        <div class="faq-answer">
+                            <p>Naravno! Javite nam se putem WhatsApp-a ili forme za kontakt i kažite koje boje ili kombinacije želite. Potrudićemo se da ispunimo svaku želju.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Kako se vrši plaćanje?</summary>
+                        <div class="faq-answer">
+                            <p>Plaćanje je moguće gotovinom prilikom ličnog preuzimanja, uplatom na račun pre slanja, ili pouzećem (plaćanje kuriru pri dostavi).</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Kako da održavam gumice da duže traju?</summary>
+                        <div class="faq-answer">
+                            <p>Satenske gumice preporučujemo da perete ručno u mlakoj vodi sa blagim deterdžentom. Pamučne mogu u mašinu na 30°C u mrežici za pranje. Osušite na vazduhu.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary>Da li radite poklon pakovanja?</summary>
+                        <div class="faq-answer">
+                            <p>Da! Svi naši setovi dolaze u dekorativnom pakovanju. Za pojedinačne proizvode, poklon pakovanje je dostupno uz malu doplatu.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="section">
+            <div class="container contact-grid">
+                <div class="contact-info">
+                    <span class="label">Kontakt</span>
+                    <h2>Javi nam se</h2>
+                    <p>Imaš pitanje, želiš posebnu kombinaciju boja ili hoćeš da naručiš? Slobodno nam piši ili pozovi — tu smo za tebe.</p>
+                    <ul class="contact-channels" id="contact-channels">
+                        <!-- JS populates contact links -->
+                    </ul>
+                    <div class="contact-address">
+                        <p><strong>Lokacija:</strong> Pančevo, Srbija</p>
+                        <p><strong>Radno vreme:</strong> Pon–Pet 09–18h, Sub 10–14h</p>
+                    </div>
+                </div>
+                <form id="contact-form" class="contact-form" novalidate>
+                    <h3>Pošalji upit</h3>
+                    <div class="form-field">
+                        <label for="form-name">Ime i prezime</label>
+                        <input id="form-name" name="name" type="text" autocomplete="name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="form-contact">Email ili telefon</label>
+                        <input id="form-contact" name="contact" type="text" autocomplete="email" required placeholder="Za povratnu informaciju">
+                    </div>
+                    <div class="form-field">
+                        <label for="form-message">Poruka</label>
+                        <textarea id="form-message" name="message" rows="4" required placeholder="Šta te zanima?"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Pošalji putem WhatsApp-a</button>
+                    <p class="form-hint">Forma otvara WhatsApp sa tvojom porukom. Bez registracije, bez čekanja.</p>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a class="logo" href="#">Mašnica</a>
+                <p>Ručno pravljene gumice za kosu</p>
+                <p>Pančevo, Srbija</p>
+            </div>
+            <nav class="footer-nav" aria-label="Footer navigacija">
+                <h4>Navigacija</h4>
+                <a href="#products">Proizvodi</a>
+                <a href="#about">O nama</a>
+                <a href="#how-to-order">Naručivanje</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+            <div class="footer-social">
+                <h4>Pratite nas</h4>
+                <div class="social-links" id="social-links">
+                    <!-- JS populates social links -->
+                </div>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Mašnica — Demo verzija sajta</p>
+        </div>
+    </footer>
+
+    <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="Pošalji poruku na WhatsApp">
+        💬 <span>WhatsApp</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
