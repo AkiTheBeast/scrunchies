@@ -259,8 +259,13 @@ function getElements() {
         cartBackBtn: document.getElementById("cart-back-btn"),
         cartStepItems: document.getElementById("cart-step-items"),
         cartStepCheckout: document.getElementById("cart-step-checkout"),
+        cartStepConfirmation: document.getElementById("cart-step-confirmation"),
         checkoutOrderSummary: document.getElementById("checkout-order-summary"),
+        confirmationSummary: document.getElementById("confirmation-summary"),
+        confirmationCloseBtn: document.getElementById("confirmation-close-btn"),
+        checkoutSubmitBtn: document.getElementById("checkout-submit-btn"),
         cartOrderData: document.getElementById("cart-order-data"),
+        toastContainer: document.getElementById("toast-container"),
         siteHeader: document.querySelector(".site-header")
     };
 }
@@ -360,16 +365,14 @@ function renderProducts(els) {
     els.grid.querySelectorAll(".btn-add-cart").forEach(function(btn) {
         btn.addEventListener("click", function() {
             var id = btn.getAttribute("data-id");
+            var product = findProduct(id);
             addToCart(id);
             renderCartUI(els);
-            // Brief feedback
-            var origText = btn.textContent;
-            btn.textContent = "✓ Dodato!";
-            btn.disabled = true;
-            setTimeout(function() {
-                btn.textContent = origText;
-                btn.disabled = false;
-            }, 1000);
+            // Toast feedback
+            var name = product ? product.name : "Proizvod";
+            showToast(els, "✓ " + name + " dodat u korpu", "Pogledaj korpu", function() {
+                openCart(els);
+            });
         });
     });
 
@@ -506,13 +509,23 @@ function showCartStep(els, step) {
     if (step === "checkout") {
         if (els.cartStepItems) els.cartStepItems.hidden = true;
         if (els.cartStepCheckout) els.cartStepCheckout.hidden = false;
+        if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = true;
         if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "📋 Narudžbina";
+        if (els.cartDrawer) els.cartDrawer.classList.add("checkout-mode");
         renderCheckoutSummary(els);
         updateCartOrderData(els);
+    } else if (step === "confirmation") {
+        if (els.cartStepItems) els.cartStepItems.hidden = true;
+        if (els.cartStepCheckout) els.cartStepCheckout.hidden = true;
+        if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = false;
+        if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "✅ Potvrda";
+        if (els.cartDrawer) els.cartDrawer.classList.remove("checkout-mode");
     } else {
         if (els.cartStepItems) els.cartStepItems.hidden = false;
         if (els.cartStepCheckout) els.cartStepCheckout.hidden = true;
+        if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = true;
         if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "🛒 Tvoja korpa";
+        if (els.cartDrawer) els.cartDrawer.classList.remove("checkout-mode");
     }
 }
 
@@ -531,6 +544,60 @@ function renderCheckoutSummary(els) {
     html += '<div class="checkout-summary-line checkout-summary-total"><span>Ukupno</span><span>' + formatPrice(getCartTotal()) + '</span></div>';
 
     els.checkoutOrderSummary.innerHTML = html;
+}
+
+function renderConfirmationSummary(els, cart) {
+    if (!els.confirmationSummary) return;
+
+    var html = '';
+    cart.forEach(function(item) {
+        var product = findProduct(item.id);
+        if (!product) return;
+        html += '<div class="checkout-summary-line"><span>' + escapeHtml(product.name) + ' × ' + item.qty + '</span><span>' + formatPrice(product.price * item.qty) + '</span></div>';
+    });
+
+    var total = 0;
+    cart.forEach(function(item) {
+        var product = findProduct(item.id);
+        if (product) total += product.price * item.qty;
+    });
+
+    html += '<div class="checkout-summary-line checkout-summary-total"><span>Ukupno</span><span>' + formatPrice(total) + '</span></div>';
+
+    els.confirmationSummary.innerHTML = html;
+}
+
+function showToast(els, message, actionText, actionFn) {
+    if (!els.toastContainer) return;
+
+    var toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+
+    if (actionText && actionFn) {
+        var btn = document.createElement("button");
+        btn.className = "toast-action";
+        btn.textContent = actionText;
+        btn.addEventListener("click", function() {
+            actionFn();
+            dismissToast(toast);
+        });
+        toast.appendChild(btn);
+    }
+
+    els.toastContainer.appendChild(toast);
+
+    setTimeout(function() {
+        dismissToast(toast);
+    }, 4000);
+}
+
+function dismissToast(toast) {
+    if (!toast.parentNode) return;
+    toast.classList.add("toast-out");
+    setTimeout(function() {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 250);
 }
 
 /* -------------------------------------------
@@ -657,13 +724,61 @@ function setupFormValidation(els) {
     if (!els.form) return;
 
     els.form.addEventListener("submit", function(e) {
+        e.preventDefault();
+
         var cart = cleanCart();
         if (!cart.length) {
-            e.preventDefault();
             alert("Korpa je prazna! Dodaj proizvode pre naručivanja.");
             return;
         }
-        // Cart data is already in hidden field via updateFormCartData
+
+        // Collect form data
+        var formData = new FormData(els.form);
+        var data = {};
+        formData.forEach(function(value, key) {
+            data[key] = value;
+        });
+
+        // Disable submit button
+        if (els.checkoutSubmitBtn) {
+            els.checkoutSubmitBtn.disabled = true;
+            els.checkoutSubmitBtn.textContent = "Šaljem...";
+        }
+
+        // Snapshot cart for confirmation before clearing
+        var cartSnapshot = cart.slice();
+
+        // AJAX submit to FormSubmit.co
+        var formAction = els.form.getAttribute("action");
+        var ajaxUrl = formAction.replace("https://formsubmit.co/", "https://formsubmit.co/ajax/");
+
+        fetch(ajaxUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify(data)
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(result) {
+            if (result.success) {
+                // Clear cart and show confirmation
+                localStorage.removeItem(CART_KEY);
+                renderConfirmationSummary(els, cartSnapshot);
+                showCartStep(els, "confirmation");
+                renderCartUI(els);
+                els.form.reset();
+            } else {
+                alert("Greška pri slanju narudžbine. Pokušaj ponovo.");
+            }
+        })
+        .catch(function() {
+            alert("Greška pri slanju narudžbine. Proveri internet konekciju i pokušaj ponovo.");
+        })
+        .finally(function() {
+            if (els.checkoutSubmitBtn) {
+                els.checkoutSubmitBtn.disabled = false;
+                els.checkoutSubmitBtn.textContent = "Pošalji narudžbinu";
+            }
+        });
     });
 }
 
@@ -823,6 +938,13 @@ function init() {
         if (els.cartBackBtn) {
             els.cartBackBtn.addEventListener("click", function() {
                 showCartStep(els, "items");
+            });
+        }
+
+        // Confirmation close button
+        if (els.confirmationCloseBtn) {
+            els.confirmationCloseBtn.addEventListener("click", function() {
+                closeCart(els);
             });
         }
 

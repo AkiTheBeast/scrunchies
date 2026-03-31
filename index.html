@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Purple Star | Ručno pravljeni scrunchies — Pančevo</title>
     <meta name="description" content="Ručno pravljeni scrunchies od kvalitetnih materijala. Naručite online, preuzmite u Pančevu ili primite kurirskom službom.">
-    <meta name="theme-color" content="#7c3aed">
+    <meta name="theme-color" content="#8b5cf6">
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <meta property="og:title" content="Purple Star — Ručno pravljeni scrunchies">
     <meta property="og:description" content="Ručno pravljeni scrunchies iz Pančeva. Kvalitetni materijali, dostava širom Srbije.">
@@ -13,7 +13,7 @@
     <meta property="og:locale" content="sr_RS">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
     <script type="application/ld+json">
     {
@@ -140,12 +140,26 @@
                         <textarea id="form-note" name="Napomena" rows="2" placeholder="Posebne želje, poklon pakovanje..."></textarea>
                     </div>
 
-                    <button class="btn btn-primary" type="submit" style="width:100%">Pošalji narudžbinu</button>
+                    <button class="btn btn-primary" id="checkout-submit-btn" type="submit" style="width:100%">Pošalji narudžbinu</button>
                     <p class="form-hint">Potvrdu narudžbine dobićeš na email. Plaćanje isključivo gotovinom.</p>
                 </form>
             </div>
         </div>
+
+        <!-- Step 3: Order Confirmation -->
+        <div class="cart-step" id="cart-step-confirmation" hidden>
+            <div class="cart-drawer-body cart-confirmation">
+                <div class="confirmation-icon">✅</div>
+                <h3>Narudžbina je poslata!</h3>
+                <div id="confirmation-summary" class="confirmation-summary"></div>
+                <p class="confirmation-email-note">Potvrdu ćeš dobiti na email adresu koju si uneo/la.</p>
+                <button class="btn btn-primary" id="confirmation-close-btn" type="button" style="width:100%">Zatvori</button>
+            </div>
+        </div>
     </aside>
+
+    <!-- Toast notification container -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
 
     <main id="main">
 
@@ -167,32 +181,6 @@
                         alt="Kolekcija ručno pravljenih scrunchie gumica u raznim bojama"
                         width="560" height="400"
                         fetchpriority="high"
-                    >
-                </div>
-            </div>
-        </section>
-
-        <!-- About -->
-        <section id="about" class="section section-alt">
-            <div class="container about-grid">
-                <div class="about-content">
-                    <span class="label">O nama</span>
-                    <h2>Mala radionica, velika pažnja</h2>
-                    <p>Purple Star je nastao iz ljubavi prema ručnom radu i lepim detaljima. Sve je počelo kao hobi — pravljenje scrunchies za sebe i prijateljice — a onda su se narudžbine počele nizati.</p>
-                    <p>Danas svaki scrunchie i dalje pravimo ručno u našoj maloj radionici u Pančevu. Biramo mekane, kvalitetne materijale koji su nežni prema kosi i izgledaju sjajno uz svaki outfit.</p>
-                    <ul class="about-highlights">
-                        <li>Ručno pravljeno u Pančevu</li>
-                        <li>Kvalitetni materijali — saten, pamuk, pliš</li>
-                        <li>Dostava širom Srbije putem BEX i AKS kurirske službe</li>
-                        <li>Lično preuzimanje u Pančevu</li>
-                    </ul>
-                </div>
-                <div class="about-image">
-                    <img
-                        src="https://images.pexels.com/photos/5128656/pexels-photo-5128656.jpeg?auto=compress&cs=tinysrgb&w=560&h=400"
-                        alt="Žena vezuje kosu scrunchie gumicom"
-                        width="560" height="400"
-                        loading="lazy"
                     >
                 </div>
             </div>
@@ -304,8 +292,34 @@
             </div>
         </section>
 
+        <!-- About -->
+        <section id="about" class="section">
+            <div class="container about-grid">
+                <div class="about-content">
+                    <span class="label">O nama</span>
+                    <h2>Mala radionica, velika pažnja</h2>
+                    <p>Purple Star je nastao iz ljubavi prema ručnom radu i lepim detaljima. Sve je počelo kao hobi — pravljenje scrunchies za sebe i prijateljice — a onda su se narudžbine počele nizati.</p>
+                    <p>Danas svaki scrunchie i dalje pravimo ručno u našoj maloj radionici u Pančevu. Biramo mekane, kvalitetne materijale koji su nežni prema kosi i izgledaju sjajno uz svaki outfit.</p>
+                    <ul class="about-highlights">
+                        <li>Ručno pravljeno u Pančevu</li>
+                        <li>Kvalitetni materijali — saten, pamuk, pliš</li>
+                        <li>Dostava širom Srbije putem BEX i AKS kurirske službe</li>
+                        <li>Lično preuzimanje u Pančevu</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img
+                        src="https://images.pexels.com/photos/5128656/pexels-photo-5128656.jpeg?auto=compress&cs=tinysrgb&w=560&h=400"
+                        alt="Žena vezuje kosu scrunchie gumicom"
+                        width="560" height="400"
+                        loading="lazy"
+                    >
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ -->
-        <section id="faq" class="section">
+        <section id="faq" class="section section-alt">
             <div class="container">
                 <div class="section-header">
                     <span class="label">Najčešća pitanja</span>

@@ -446,3 +446,112 @@ Four changes requested: (1) a "fake" shopping cart system, (2) fix language from
 - JSON-LD telephone, email → real data
 - OG meta title/description → updated for Purple Star
 - `<title>` tag → "Purple Star | Handmade ukrasi za kosu i nakit — Pančevo"
+
+---
+
+## 2026-03-31 — Research & Redesign Plan
+
+### 19. Comprehensive redesign research
+Conducted extensive research across multiple areas:
+
+**Layout research:**
+- Reviewed Baymard Institute e-commerce UX guidelines, Awwwards top e-commerce examples
+- Key finding: Products should be section #2 (immediately after Hero), About can move lower
+- Social proof (Testimonials) stays right after Products for trust validation
+- Purchase funnel sections (How to Order → Delivery → FAQ → Contact) stay together unbroken
+
+**Color research:**
+- Studied Material Design 3 color system and Refactoring UI palette-building methodology
+- Problem: single #7c3aed purple with no shade scale limits UI expression
+- Solution: 9-shade purple scale (#f5f0ff to #4c1d95) + 10-shade purple-tinted neutral scale (#faf8ff to #1a1128)
+- All color pairs verified for WCAG AA contrast compliance
+
+**Font research:**
+- Analyzed Google Fonts Knowledge (pairing theory), Typewolf serif rankings
+- Evaluated 3 options: DM Serif Display + DM Sans, Cormorant Garamond + Nunito Sans, Libre Caslon Text + Work Sans
+- Selected DM Serif Display + DM Sans — same designer (Colophon Foundry), guaranteed harmony, excellent Cyrillic/Latin support, lighter file weight than Playfair+Lora
+
+**Cart UX research:**
+- Reviewed Baymard Institute cart abandonment studies (70.19% average)
+- Identified 5 problems: no stock control, FormSubmit redirect leaves app, localStorage-only fragility, no stock visibility, cramped checkout in 400px drawer
+- Planned two-phase fix: Phase 1 (AJAX form + in-app confirmation), Phase 2 (Google Sheets backend)
+
+**Created:** `WEBSITE_REDESIGN_PLAN.md` — comprehensive plan covering all four areas with implementation priorities
+
+---
+
+## 2026-04-01 — Redesign Implementation (Phase 1)
+
+### 20. Section reorder
+- Moved About section from position #2 (after Hero) to position #5 (after Delivery, before FAQ)
+- Products now immediately follow Hero — highest conversion impact section gets prime real estate
+- New order: Hero → Products → Testimonials → How to Order → Delivery → About → FAQ → Contact
+
+### 21. New color system
+- Replaced entire `:root` CSS variable block with comprehensive design token system
+- **Purple scale** (9 shades): `--purple-100` (#f5f0ff) through `--purple-900` (#4c1d95)
+- **Neutral scale** (10 shades): `--neutral-50` (#faf8ff) through `--neutral-900` (#1a1128) — purple-tinted for brand cohesion
+- **Semantic tokens**: `--bg`, `--surface`, `--surface-alt`, `--text`, `--text-muted`, `--brand`, `--brand-dark`, `--brand-light`, `--border` all mapped to scale values
+- **Semantic colors**: success (#16a34a), warning (#d97706), danger (#dc2626)
+- Updated all hardcoded `rgba(124, 58, 237, ...)` values throughout CSS to match new primary (#8b5cf6 = `rgba(139, 92, 246, ...)`)
+- Footer colors migrated from hardcoded hex (#2d1654, #4a2d6e, #9898b0, #6b6890) to new neutral scale variables
+- Hero gradient updated to use `var(--purple-100)` instead of hardcoded #f3eeff
+- Theme-color meta tag updated from #7c3aed to #8b5cf6
+
+### 22. Font upgrade: Playfair Display + Lora → DM Serif Display + DM Sans
+- Updated Google Fonts `<link>` import in HTML head
+- CSS variables already set: `--heading: "DM Serif Display"`, `--body: "DM Sans"`
+- Same designer (Colophon Foundry) guarantees visual harmony between heading and body
+- Lighter combined file weight than previous Playfair+Lora pairing
+- Full Cyrillic + Latin Extended support for Serbian diacritics (č, ć, đ, š, ž)
+
+### 23. AJAX form submission + Step 3 order confirmation
+**Problem:** FormSubmit.co used native POST which redirected users away from the site after ordering. Users lost their place, couldn't see confirmation, poor UX.
+
+**Solution:**
+- Converted form submission from native POST to `fetch()` AJAX using FormSubmit.co's AJAX endpoint (`/ajax/` prefix)
+- Added Step 3 confirmation UI inside the cart drawer (after checkout form)
+- Confirmation shows: ✅ icon, "Narudžbina je poslata!" heading, full order summary (items + total), email confirmation note, close button
+- Cart clears automatically on successful submission (`localStorage.removeItem`)
+- Submit button shows "Šaljem..." loading state during request
+- Error handling: shows alert on network failure or FormSubmit error
+- Form resets after successful submission
+- Cart snapshot taken before clearing so confirmation summary shows correct items
+
+**HTML changes:**
+- Added `id="checkout-submit-btn"` to submit button for JS reference
+- Added Step 3 `#cart-step-confirmation` div with confirmation icon, heading, summary container, email note, close button
+- Added `#toast-container` div at end of body for toast notifications
+
+**JS changes:**
+- `getElements()`: Added `cartStepConfirmation`, `confirmationSummary`, `confirmationCloseBtn`, `checkoutSubmitBtn`, `toastContainer`
+- `showCartStep()`: Added "confirmation" step handling, manages `checkout-mode` class on drawer
+- `setupFormValidation()`: Complete rewrite — now uses `fetch()` with JSON body, handles success/error states
+- Added `renderConfirmationSummary()` function
+- Added confirmation close button handler in `init()`
+
+### 24. Toast notification system
+**Problem:** "Dodato u korpu" feedback was just a brief button text change — easy to miss, no way to open cart from it.
+
+**Solution:**
+- Added toast/snackbar notification system at bottom of screen
+- Shows product name: "✓ [Product Name] dodat u korpu"
+- Includes "Pogledaj korpu" action button that opens the cart drawer
+- Auto-dismisses after 4 seconds with smooth slide animation
+- Stacks multiple toasts if items added rapidly
+- Accessible: container has `aria-live="polite"` for screen readers
+
+**CSS:** Toast styles with slide-in/out keyframe animations, dark neutral background, purple action button color
+
+### 25. Drawer expansion on desktop checkout
+**Problem:** 400px drawer too cramped for checkout form on desktop — form fields feel squeezed.
+
+**Solution:**
+- Added CSS media query: on screens ≥768px, when drawer has `.checkout-mode` class, width expands to `min(560px, 90vw)`
+- JS adds/removes `checkout-mode` class in `showCartStep()` when entering/leaving checkout step
+- Confirmation step removes the class (doesn't need extra width)
+
+### Current file sizes (approximate)
+- index.html: ~510 lines
+- styles.css: ~1700 lines
+- script.js: ~950 lines
