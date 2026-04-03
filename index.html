@@ -15,6 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=5">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -48,7 +49,7 @@
             </nav>
             <div class="header-actions">
                 <button class="cart-toggle" id="cart-toggle" type="button" aria-label="Otvori korpu">
-                    🛒 <span class="cart-count" id="cart-count" hidden>0</span>
+                    <i class="ph ph-shopping-bag"></i> <span class="cart-count" id="cart-count" hidden>0</span>
                 </button>
                 <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Otvori meni">
                     <span></span>
@@ -63,7 +64,7 @@
     <div class="cart-overlay" id="cart-overlay" hidden></div>
     <aside class="cart-drawer" id="cart-drawer" aria-label="Korpa" hidden>
         <div class="cart-drawer-header">
-            <h3 id="cart-drawer-title">🛒 Tvoja korpa</h3>
+            <h3 id="cart-drawer-title"><i class="ph ph-shopping-bag"></i> Tvoja korpa</h3>
             <button class="cart-close" id="cart-close" type="button" aria-label="Zatvori korpu">&times;</button>
         </div>
 
@@ -91,7 +92,7 @@
                 <form id="order-form" class="checkout-form" action="https://formsubmit.co/info@example.com" method="POST">
                     <!-- FormSubmit.co hidden fields -->
                     <input type="hidden" name="_subject" value="Nova narudžbina — Purple Star">
-                    <input type="hidden" name="_autoresponse" value="Hvala na narudžbini! Primili smo vaš zahtev i javićemo vam se u najkraćem roku. Sve narudžbine se šalju ponedeljkom. — Purple Star ⭐">
+                    <input type="hidden" name="_autoresponse" value="Hvala na narudžbini! Primili smo vaš zahtev i javićemo vam se u najkraćem roku. Sve narudžbine se šalju ponedeljkom. — Purple Star">
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_next" id="formsubmit-next" value="">
                     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
@@ -99,7 +100,7 @@
                     <input type="hidden" name="Narudžbina" id="cart-order-data" value="">
 
                     <div id="sunday-notice" class="sunday-notice" hidden>
-                        <p>⚠️ Nedeljni rok za slanje u ponedeljak je prošao. Narudžbine primljene sada biće poslate sledećeg ponedeljka.</p>
+                        <p><i class="ph ph-warning-circle"></i> Nedeljni rok za slanje u ponedeljak je prošao. Narudžbine primljene sada biće poslate sledećeg ponedeljka.</p>
                     </div>
 
                     <div class="form-field">
@@ -119,15 +120,15 @@
                         <div class="radio-group">
                             <label class="radio-label">
                                 <input type="radio" name="Preuzimanje" value="Lično u Pančevu" required>
-                                <span>📍 Lično u Pančevu (besplatno)</span>
+                                <span><i class="ph ph-map-pin"></i> Lično u Pančevu (besplatno)</span>
                             </label>
                             <label class="radio-label">
                                 <input type="radio" name="Preuzimanje" value="BEX kurirska služba">
-                                <span>📦 BEX kurirska služba</span>
+                                <span><i class="ph ph-package"></i> BEX kurirska služba</span>
                             </label>
                             <label class="radio-label">
                                 <input type="radio" name="Preuzimanje" value="AKS kurirska služba">
-                                <span>📦 AKS kurirska služba</span>
+                                <span><i class="ph ph-package"></i> AKS kurirska služba</span>
                             </label>
                         </div>
                     </fieldset>
@@ -149,7 +150,7 @@
         <!-- Step 3: Order Confirmation -->
         <div class="cart-step" id="cart-step-confirmation" hidden>
             <div class="cart-drawer-body cart-confirmation">
-                <div class="confirmation-icon">✅</div>
+                <div class="confirmation-icon"><i class="ph ph-check-circle"></i></div>
                 <h3>Narudžbina je poslata!</h3>
                 <div id="confirmation-summary" class="confirmation-summary"></div>
                 <p class="confirmation-email-note">Potvrdu ćeš dobiti na email adresu koju si uneo/la.</p>
@@ -284,7 +285,7 @@
                     </li>
                 </ol>
                 <div class="order-schedule">
-                    <p>📅 <strong>Raspored naručivanja:</strong> Naručivanje je moguće 24/7. Sve narudžbine primljene do nedelje u podne šalju se u ponedeljak. Narudžbine posle tog roka idu sledećeg ponedeljka.</p>
+                    <p><i class="ph ph-calendar-dots"></i> <strong>Raspored naručivanja:</strong> Naručivanje je moguće 24/7. Sve narudžbine primljene do nedelje u podne šalju se u ponedeljak. Narudžbine posle tog roka idu sledećeg ponedeljka.</p>
                 </div>
             </div>
         </section>
@@ -299,18 +300,18 @@
                 </div>
                 <div class="delivery-grid">
                     <div class="delivery-card">
-                        <div class="delivery-icon">📍</div>
+                        <div class="delivery-icon"><i class="ph ph-map-pin"></i></div>
                         <h3>Lično preuzimanje</h3>
                         <p>Preuzmi svoju narudžbinu direktno u Pančevu. Besplatno.</p>
                     </div>
                     <div class="delivery-card">
-                        <div class="delivery-icon">📦</div>
+                        <div class="delivery-icon"><i class="ph ph-package"></i></div>
                         <h3>Kurirska dostava</h3>
                         <p>Slanje širom Srbije putem BEX ili AKS kurirske službe. Troškove dostave snosi kupac.</p>
                     </div>
                 </div>
                 <div class="payment-info">
-                    <h3>💳 Način plaćanja</h3>
+                    <h3><i class="ph ph-credit-card"></i> Način plaćanja</h3>
                     <div class="payment-options">
                         <div class="payment-option">
                             <strong>Gotovina</strong>
@@ -413,7 +414,7 @@
                 </div>
                 <form id="inquiry-form" class="contact-form" action="https://formsubmit.co/info@example.com" method="POST">
                     <input type="hidden" name="_subject" value="Novo pitanje — Purple Star">
-                    <input type="hidden" name="_autoresponse" value="Hvala na poruci! Javićemo vam se u najkraćem roku. — Purple Star ⭐">
+                    <input type="hidden" name="_autoresponse" value="Hvala na poruci! Javićemo vam se u najkraćem roku. — Purple Star">
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_next" id="inquiry-next" value="">
                     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">

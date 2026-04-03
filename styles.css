@@ -79,6 +79,26 @@ a {
     color: inherit;
 }
 
+/* --- Phosphor Icons --- */
+
+.ph {
+    vertical-align: -0.125em;
+}
+
+.delivery-icon .ph {
+    font-size: 2rem;
+    color: var(--brand);
+}
+
+.confirmation-icon .ph {
+    font-size: 3rem;
+    color: var(--success);
+}
+
+.sunday-notice .ph {
+    color: var(--warning);
+}
+
 /* --- Layout --- */
 
 .container {

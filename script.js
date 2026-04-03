@@ -370,7 +370,7 @@ function renderProducts(els) {
             renderCartUI(els);
             // Toast feedback
             var name = product ? product.name : "Proizvod";
-            showToast(els, "✓ " + name + " dodat u korpu", "Pogledaj korpu", function() {
+            showToast(els, '<i class="ph ph-check"></i> ' + name + ' dodat u korpu', "Pogledaj korpu", function() {
                 openCart(els);
             });
         });
@@ -518,13 +518,13 @@ function showCartStep(els, step) {
         if (els.cartStepItems) els.cartStepItems.hidden = true;
         if (els.cartStepCheckout) els.cartStepCheckout.hidden = true;
         if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = false;
-        if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "✅ Potvrda";
+        if (els.cartDrawerTitle) els.cartDrawerTitle.innerHTML = '<i class="ph ph-check-circle"></i> Potvrda';
         if (els.cartDrawer) els.cartDrawer.classList.remove("checkout-mode");
     } else {
         if (els.cartStepItems) els.cartStepItems.hidden = false;
         if (els.cartStepCheckout) els.cartStepCheckout.hidden = true;
         if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = true;
-        if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "🛒 Tvoja korpa";
+        if (els.cartDrawerTitle) els.cartDrawerTitle.innerHTML = '<i class="ph ph-shopping-bag"></i> Tvoja korpa';
         if (els.cartDrawer) els.cartDrawer.classList.remove("checkout-mode");
     }
 }
@@ -572,7 +572,10 @@ function showToast(els, message, actionText, actionFn) {
 
     var toast = document.createElement("div");
     toast.className = "toast";
-    toast.textContent = message;
+
+    var msgSpan = document.createElement("span");
+    msgSpan.innerHTML = message;
+    toast.appendChild(msgSpan);
 
     if (actionText && actionFn) {
         var btn = document.createElement("button");
@@ -606,8 +609,8 @@ function dismissToast(toast) {
 
 function renderContactChannels(els) {
     var channels = [
-        { label: "Email: " + config.email, href: "mailto:" + config.email, icon: "✉️" },
-        { label: "Instagram: @_purple_star_13", href: config.instagram, icon: "📸" }
+        { label: "Email: " + config.email, href: "mailto:" + config.email, icon: '<i class="ph ph-envelope-simple"></i>' },
+        { label: "Instagram: @_purple_star_13", href: config.instagram, icon: '<i class="ph ph-instagram-logo"></i>' }
     ];
 
     els.contactChannels.innerHTML = "";
@@ -618,7 +621,7 @@ function renderContactChannels(els) {
         a.href = ch.href;
         a.target = "_blank";
         a.rel = "noopener";
-        a.textContent = ch.icon + "  " + ch.label;
+        a.innerHTML = ch.icon + "  " + ch.label;
         li.appendChild(a);
         els.contactChannels.appendChild(li);
     });
