@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Purple Star | Ručno pravljeni scrunchies — Pančevo</title>
     <meta name="description" content="Ručno pravljeni scrunchies od kvalitetnih materijala. Naručite online, preuzmite u Pančevu ili primite kurirskom službom.">
-    <meta name="theme-color" content="#8b5cf6">
+    <meta name="theme-color" content="#c9a087">
     <link rel="icon" type="image/png" href="favicon-32x32.png">
     <meta property="og:title" content="Purple Star — Ručno pravljeni scrunchies">
     <meta property="og:description" content="Ručno pravljeni scrunchies iz Pančeva. Kvalitetni materijali, dostava širom Srbije.">
@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=5">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -168,7 +168,7 @@
             <div class="container hero-grid">
                 <div class="hero-content">
                     <span class="label">Ručno pravljeno u Pančevu</span>
-                    <h1>Scrunchies pravljeni s&nbsp;pažnjom, za svaki dan</h1>
+                    <h1>Scrunchies pravljeni s&nbsp;<em class="hero-accent">pažnjom</em>, za svaki dan</h1>
                     <p class="hero-desc">Svaki komad je ručno napravljen od pažljivo odabranih materijala — saten, pliš, pamuk. Mekani za kosu, lepi za svaki outfit.</p>
                     <div class="hero-cta">
                         <a href="#products" class="btn btn-primary">Pogledaj ponudu</a>
@@ -185,6 +185,36 @@
                 </div>
             </div>
         </section>
+
+        <!-- Marquee Strip -->
+        <div class="marquee-strip" aria-hidden="true">
+            <div class="marquee-track" id="marquee-track">
+                <span class="marquee-text">★ Ručno pravljeno&nbsp;&nbsp;&nbsp;★ Kvalitetni materijali&nbsp;&nbsp;&nbsp;★ Saten · Pliš · Pamuk&nbsp;&nbsp;&nbsp;★ Dostava širom Srbije&nbsp;&nbsp;&nbsp;</span>
+            </div>
+        </div>
+        <script>
+        (function(){
+            var track = document.getElementById('marquee-track');
+            if (!track) return;
+            var first = track.firstElementChild;
+            // duplicate text nodes until we have enough to fill 2x viewport
+            while (track.scrollWidth < window.innerWidth * 3) {
+                track.appendChild(first.cloneNode(true));
+            }
+            var speed = 60; // px per second
+            var pos = 0;
+            var halfW = first.offsetWidth;
+            var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+            function step() {
+                pos -= speed / 60;
+                if (pos <= -halfW) pos += halfW;
+                track.style.transform = 'translateX(' + pos + 'px)';
+                requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        })();
+        </script>
 
         <!-- Products -->
         <section id="products" class="section">
