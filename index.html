@@ -197,15 +197,12 @@
             var track = document.getElementById('marquee-track');
             if (!track) return;
             var first = track.firstElementChild;
-            // duplicate text nodes until we have enough to fill 2x viewport
             while (track.scrollWidth < window.innerWidth * 3) {
                 track.appendChild(first.cloneNode(true));
             }
-            var speed = 60; // px per second
+            var speed = 60;
             var pos = 0;
             var halfW = first.offsetWidth;
-            var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReduced) return;
             function step() {
                 pos -= speed / 60;
                 if (pos <= -halfW) pos += halfW;
@@ -213,6 +210,8 @@
                 requestAnimationFrame(step);
             }
             requestAnimationFrame(step);
+        })();
+        </script>
         })();
         </script>
 
