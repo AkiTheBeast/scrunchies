@@ -86,8 +86,8 @@ a {
 }
 
 .delivery-icon .ph {
-    font-size: 2rem;
-    color: var(--brand);
+    font-size: 1.5rem;
+    color: var(--brand-dark);
 }
 
 .confirmation-icon .ph {
@@ -1220,8 +1220,8 @@ h3 {
 .delivery-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
-    max-width: 700px;
+    gap: 1.5rem;
+    max-width: 720px;
     margin: 0 auto;
 }
 
@@ -1229,7 +1229,8 @@ h3 {
     background: var(--surface);
     border-radius: var(--radius);
     border: 1px solid var(--border);
-    padding: 2rem 1.5rem;
+    border-top: 3px solid var(--brand);
+    padding: 2.25rem 2rem;
     text-align: center;
     transition: transform var(--transition), box-shadow var(--transition);
 }
@@ -1240,7 +1241,17 @@ h3 {
 }
 
 .delivery-icon {
-    font-size: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-light);
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.delivery-card h3 {
     margin-bottom: .5rem;
 }
 
@@ -1248,6 +1259,7 @@ h3 {
     color: var(--text-muted);
     margin: 0;
     font-size: .95rem;
+    line-height: 1.5;
 }
 
 /* --- Contact --- */
@@ -1570,8 +1582,11 @@ h3 {
 /* --- Payment Info --- */
 
 .payment-info {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     text-align: center;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .payment-info h3 {
@@ -1590,9 +1605,10 @@ h3 {
     display: flex;
     flex-direction: column;
     gap: .2rem;
-    padding: .75rem 1.25rem;
+    padding: .85rem 1.5rem;
     background: var(--surface);
     border: 1px solid var(--border);
+    border-top: 3px solid var(--accent-sage);
     border-radius: var(--radius-sm);
     min-width: 180px;
 }
@@ -1866,21 +1882,22 @@ h3 {
     }
 
     .delivery-card {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        text-align: left;
-        padding: 1.25rem 1.5rem;
+        padding: 1.75rem 1.5rem;
     }
 
     .delivery-icon {
-        font-size: 1.6rem;
-        margin-bottom: 0;
-        flex-shrink: 0;
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: .75rem;
+    }
+
+    .delivery-icon .ph {
+        font-size: 1.3rem;
     }
 
     .delivery-card h3 {
-        margin-bottom: .25rem;
+        font-size: 1rem;
+        margin-bottom: .35rem;
     }
 
     .delivery-card p {
