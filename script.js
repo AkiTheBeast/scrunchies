@@ -510,7 +510,7 @@ function showCartStep(els, step) {
         if (els.cartStepItems) els.cartStepItems.hidden = true;
         if (els.cartStepCheckout) els.cartStepCheckout.hidden = false;
         if (els.cartStepConfirmation) els.cartStepConfirmation.hidden = true;
-        if (els.cartDrawerTitle) els.cartDrawerTitle.textContent = "📋 Narudžbina";
+        if (els.cartDrawerTitle) els.cartDrawerTitle.innerHTML = '<i class="ph ph-calendar-dots"></i> Narudžbina';
         if (els.cartDrawer) els.cartDrawer.classList.add("checkout-mode");
         renderCheckoutSummary(els);
         updateCartOrderData(els);
