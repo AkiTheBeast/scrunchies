@@ -11,6 +11,17 @@
     <meta property="og:description" content="Ručno pravljeni scrunchies iz Pančeva. Kvalitetni materijali, dostava širom Srbije.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="sr_RS">
+    <!-- TODO: Replace SITE_URL with live URL, OG_IMAGE_URL with 1200x630 share image -->
+    <meta property="og:url" content="SITE_URL">
+    <meta property="og:image" content="OG_IMAGE_URL">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Purple Star — Ručno pravljeni scrunchies">
+    <meta name="twitter:description" content="Ručno pravljeni scrunchies iz Pančeva. Kvalitetni materijali, dostava širom Srbije.">
+    <meta name="twitter:image" content="OG_IMAGE_URL">
+    <link rel="canonical" href="SITE_URL">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&display=swap" rel="stylesheet">
@@ -22,13 +33,17 @@
         "@type": "LocalBusiness",
         "name": "Purple Star",
         "description": "Ručno pravljeni scrunchies od kvalitetnih materijala.",
+        "url": "SITE_URL",
+        "image": "OG_IMAGE_URL",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Pančevo",
             "addressCountry": "RS"
         },
         "areaServed": ["Pančevo", "Beograd", "Srbija"],
-        "email": "info@example.com"
+        "email": "info@example.com",
+        "sameAs": ["https://instagram.com/_purple_star_13"],
+        "priceRange": "$$"
     }
     </script>
 </head>
@@ -197,6 +212,7 @@
         </div>
         <script>
         (function(){
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             var track = document.getElementById('marquee-track');
             if (!track) return;
             var first = track.firstElementChild;

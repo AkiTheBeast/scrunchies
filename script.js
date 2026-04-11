@@ -704,6 +704,32 @@ function buildModalContent(product, els) {
     return '<div class="modal-product-grid">' + galleryHtml + infoHtml + '</div>' + similarHtml;
 }
 
+/* -------------------------------------------
+   Focus Trap (accessibility)
+   ------------------------------------------- */
+
+function trapFocus(container) {
+    var focusable = container.querySelectorAll(
+        'a[href], button:not([disabled]), textarea, input:not([type="hidden"]), select, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return function() {};
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+
+    function handler(e) {
+        if (e.key !== "Tab") return;
+        if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+    }
+    container.addEventListener("keydown", handler);
+    return function() { container.removeEventListener("keydown", handler); };
+}
+
+var _modalFocusTrapRelease = null;
+
 function openProductModal(els, productId) {
     var product = findProduct(productId);
     if (!product) return;
@@ -713,6 +739,10 @@ function openProductModal(els, productId) {
     els.productModal.classList.add("is-open");
     els.productModalOverlay.classList.add("is-open");
     document.body.style.overflow = "hidden";
+
+    // Trap focus inside modal
+    if (_modalFocusTrapRelease) _modalFocusTrapRelease();
+    _modalFocusTrapRelease = trapFocus(els.productModal);
 
     // Gallery thumbnail click
     els.productModalContent.querySelectorAll(".gallery-thumb").forEach(function(thumb) {
@@ -766,6 +796,7 @@ function openProductModal(els, productId) {
 }
 
 function closeProductModal(els) {
+    if (_modalFocusTrapRelease) { _modalFocusTrapRelease(); _modalFocusTrapRelease = null; }
     els.productModal.classList.remove("is-open");
     els.productModalOverlay.classList.remove("is-open");
     document.body.style.overflow = "";
@@ -802,10 +833,17 @@ function setupProductModal(els) {
 function openLightbox(src) {
     var overlay = document.createElement("div");
     overlay.className = "lightbox";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-label", "Uvećana slika");
     overlay.innerHTML = '<img src="' + src + '" alt="Zoom">' +
         '<button class="lightbox-close" aria-label="Zatvori"><i class="ph ph-x"></i></button>';
     document.body.appendChild(overlay);
     requestAnimationFrame(function() { overlay.classList.add("is-open"); });
+
+    // Focus the close button
+    var closeBtn = overlay.querySelector(".lightbox-close");
+    if (closeBtn) closeBtn.focus();
 
     function closeLightbox() {
         overlay.classList.remove("is-open");
@@ -908,6 +946,8 @@ function renderCartUI(els) {
     updateCartOrderData(els);
 }
 
+var _cartFocusTrapRelease = null;
+
 function openCart(els) {
     if (els.cartDrawer) {
         // Re-render cart for fresh state, then open to items step
@@ -920,11 +960,19 @@ function openCart(els) {
         els.cartDrawer.classList.add("open");
         els.cartOverlay.classList.add("open");
         document.body.style.overflow = "hidden";
+
+        // Focus trap
+        if (_cartFocusTrapRelease) _cartFocusTrapRelease();
+        _cartFocusTrapRelease = trapFocus(els.cartDrawer);
+
+        // Focus close button
+        if (els.cartClose) els.cartClose.focus();
     }
 }
 
 function closeCart(els) {
     if (els.cartDrawer) {
+        if (_cartFocusTrapRelease) { _cartFocusTrapRelease(); _cartFocusTrapRelease = null; }
         els.cartDrawer.classList.remove("open");
         els.cartOverlay.classList.remove("open");
         document.body.style.overflow = "";
@@ -1507,6 +1555,13 @@ function init() {
                 closeCart(els);
             });
         }
+
+        // Cart drawer Escape key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape" && els.cartDrawer && els.cartDrawer.classList.contains("open")) {
+                closeCart(els);
+            }
+        });
 
         // Checkout step: show form inside drawer
         if (els.cartCheckoutBtn) {
