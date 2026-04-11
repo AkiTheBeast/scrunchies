@@ -244,14 +244,19 @@
                     <div class="filter-pills" id="filter-pills" role="tablist" aria-label="Filtriraj po kategoriji">
                         <button class="pill active" data-filter="all" role="tab" aria-selected="true">Sve</button>
                     </div>
-                    <div class="sort-control">
-                        <label for="sort-select">Sortiraj:</label>
-                        <select id="sort-select">
-                            <option value="default">Preporučeno</option>
-                            <option value="price-asc">Cena ↑</option>
-                            <option value="price-desc">Cena ↓</option>
-                            <option value="name-asc">Naziv A–Ž</option>
-                        </select>
+                    <div class="sort-control" id="sort-control">
+                        <button class="sort-toggle" id="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+                            <span class="sort-label">Sortiraj:</span>
+                            <span class="sort-value" id="sort-value">Preporučeno</span>
+                            <i class="ph ph-caret-down sort-icon"></i>
+                        </button>
+                        <ul class="sort-menu" id="sort-menu" role="listbox" aria-label="Sortiraj proizvode" hidden>
+                            <li role="option" data-value="default" aria-selected="true">Preporučeno</li>
+                            <li role="option" data-value="newest" aria-selected="false">Najnovije</li>
+                            <li role="option" data-value="price-asc" aria-selected="false">Cena ↑</li>
+                            <li role="option" data-value="price-desc" aria-selected="false">Cena ↓</li>
+                            <li role="option" data-value="name-asc" aria-selected="false">Naziv A–Ž</li>
+                        </ul>
                     </div>
                 </div>
                 <div id="product-grid" class="product-grid" aria-live="polite">
@@ -289,63 +294,77 @@
         <!-- How to Order -->
         <section id="how-to-order" class="section">
             <div class="container">
-                <div class="section-header">
-                    <span class="label">Jednostavno</span>
-                    <h2>Kako da naručiš</h2>
-                    <p>Tri koraka od izbora do tvog novog scrunchie-a.</p>
-                </div>
-                <ol class="steps-grid">
-                    <li class="step-card">
-                        <span class="step-num">1</span>
-                        <h3>Dodaj u korpu</h3>
-                        <p>Pregledaj ponudu, izaberi model koji ti se sviđa i dodaj ga u korpu.</p>
-                    </li>
-                    <li class="step-card">
-                        <span class="step-num">2</span>
-                        <h3>Naruči</h3>
-                        <p>Klikni „Nastavi na narudžbinu" u korpi i popuni formular sa podacima — sve bez napuštanja korpe.</p>
-                    </li>
-                    <li class="step-card">
-                        <span class="step-num">3</span>
-                        <h3>Preuzmi ili primi</h3>
-                        <p>Narudžbine se šalju svakog ponedeljka. Preuzmi lično u Pančevu ili primi kurirskom službom.</p>
-                    </li>
-                </ol>
-                <div class="order-schedule">
-                    <p><i class="ph ph-calendar-dots"></i> <strong>Raspored naručivanja:</strong> Naručivanje je moguće 24/7. Sve narudžbine primljene do nedelje u podne šalju se u ponedeljak. Narudžbine posle tog roka idu sledećeg ponedeljka.</p>
-                </div>
+                <details class="collapsible-section" open>
+                    <summary class="collapsible-header">
+                        <div class="section-header">
+                            <span class="label">Jednostavno</span>
+                            <h2>Kako da naručiš</h2>
+                            <p>Tri koraka od izbora do tvog novog scrunchie-a.</p>
+                        </div>
+                        <i class="ph ph-caret-down collapsible-icon"></i>
+                    </summary>
+                    <div class="collapsible-body">
+                        <ol class="steps-grid">
+                            <li class="step-card">
+                                <span class="step-num">1</span>
+                                <h3>Dodaj u korpu</h3>
+                                <p>Pregledaj ponudu, izaberi model koji ti se sviđa i dodaj ga u korpu.</p>
+                            </li>
+                            <li class="step-card">
+                                <span class="step-num">2</span>
+                                <h3>Naruči</h3>
+                                <p>Klikni „Nastavi na narudžbinu" u korpi i popuni formular sa podacima — sve bez napuštanja korpe.</p>
+                            </li>
+                            <li class="step-card">
+                                <span class="step-num">3</span>
+                                <h3>Preuzmi ili primi</h3>
+                                <p>Narudžbine se šalju svakog ponedeljka. Preuzmi lično u Pančevu ili primi kurirskom službom.</p>
+                            </li>
+                        </ol>
+                        <div class="order-schedule">
+                            <p><i class="ph ph-calendar-dots"></i> <strong>Raspored naručivanja:</strong> Naručivanje je moguće 24/7. Sve narudžbine primljene do nedelje u podne šalju se u ponedeljak. Narudžbine posle tog roka idu sledećeg ponedeljka.</p>
+                        </div>
+                    </div>
+                </details>
             </div>
         </section>
 
         <!-- Delivery -->
         <section id="delivery" class="section section-alt">
             <div class="container">
-                <div class="section-header">
-                    <span class="label">Isporuka</span>
-                    <h2>Dostava i preuzimanje</h2>
-                    <p>Izaberi način koji ti najviše odgovara.</p>
-                </div>
-                <div class="delivery-grid">
-                    <div class="delivery-card">
-                        <div class="delivery-icon"><i class="ph ph-map-pin"></i></div>
-                        <h3>Lično preuzimanje</h3>
-                        <p>Preuzmi svoju narudžbinu direktno u Pančevu. Besplatno.</p>
-                    </div>
-                    <div class="delivery-card">
-                        <div class="delivery-icon"><i class="ph ph-package"></i></div>
-                        <h3>Kurirska dostava</h3>
-                        <p>Slanje širom Srbije putem BEX ili AKS kurirske službe. Troškove dostave snosi kupac.</p>
-                    </div>
-                </div>
-                <div class="payment-info">
-                    <h3><i class="ph ph-credit-card"></i> Način plaćanja</h3>
-                    <div class="payment-options">
-                        <div class="payment-option">
-                            <strong>Gotovina</strong>
-                            <span>Jedini način plaćanja — prilikom preuzimanja ili pouzećem</span>
+                <details class="collapsible-section">
+                    <summary class="collapsible-header">
+                        <div class="section-header">
+                            <span class="label">Isporuka</span>
+                            <h2>Dostava i preuzimanje</h2>
+                            <p>Izaberi način koji ti najviše odgovara.</p>
+                        </div>
+                        <i class="ph ph-caret-down collapsible-icon"></i>
+                    </summary>
+                    <div class="collapsible-body">
+                        <div class="delivery-grid">
+                            <div class="delivery-card">
+                                <div class="delivery-icon"><i class="ph ph-map-pin"></i></div>
+                                <h3>Lično preuzimanje</h3>
+                                <p>Preuzmi svoju narudžbinu direktno u Pančevu. Besplatno.</p>
+                            </div>
+                            <div class="delivery-card">
+                                <div class="delivery-icon"><i class="ph ph-package"></i></div>
+                                <h3>Kurirska dostava</h3>
+                                <p>Slanje širom Srbije putem BEX ili AKS kurirske službe. Troškove dostave snosi kupac.</p>
+                            </div>
+                        </div>
+                        <div class="payment-info">
+                            <h3><i class="ph ph-credit-card"></i> Način plaćanja</h3>
+                            <div class="payment-options">
+                                <div class="payment-option">
+                                    <strong>Gotovina</strong>
+                                    <span>Jedini način plaćanja — prilikom preuzimanja ili pouzećem</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </details>
             </div>
         </section>
 

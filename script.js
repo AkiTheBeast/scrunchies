@@ -392,6 +392,10 @@ function getElements() {
         errorBanner: document.getElementById("error-banner"),
         filterPills: document.getElementById("filter-pills"),
         sortSelect: document.getElementById("sort-select"),
+        sortControl: document.getElementById("sort-control"),
+        sortToggle: document.getElementById("sort-toggle"),
+        sortMenu: document.getElementById("sort-menu"),
+        sortValue: document.getElementById("sort-value"),
         form: document.getElementById("order-form"),
         inquiryForm: document.getElementById("inquiry-form"),
         navToggle: document.getElementById("nav-toggle"),
@@ -472,6 +476,12 @@ function sortProducts(products, sortKey) {
         sorted.sort(function(a, b) { return b.price - a.price; });
     } else if (sortKey === "name-asc") {
         sorted.sort(function(a, b) { return a.name.localeCompare(b.name, "sr"); });
+    } else if (sortKey === "newest") {
+        sorted.sort(function(a, b) {
+            var da = a.dateAdded ? new Date(a.dateAdded).getTime() : 0;
+            var db = b.dateAdded ? new Date(b.dateAdded).getTime() : 0;
+            return db - da;
+        });
     } else {
         sorted.sort(function(a, b) {
             if (a.featured && !b.featured) return -1;
@@ -507,9 +517,18 @@ function renderStockBadge(stock, settings) {
    ------------------------------------------- */
 
 function renderProducts(els) {
-    var products = activeFilter === "all"
-        ? siteData.products
-        : siteData.products.filter(function(p) { return p.category === activeFilter; });
+    var products;
+    if (activeFilter === "all") {
+        products = siteData.products;
+    } else if (activeFilter === "novo") {
+        var twoWeeksAgo = new Date();
+        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
+        products = siteData.products.filter(function(p) {
+            return p.dateAdded && new Date(p.dateAdded) >= twoWeeksAgo;
+        });
+    } else {
+        products = siteData.products.filter(function(p) { return p.category === activeFilter; });
+    }
 
     // Hide out-of-stock products
     products = products.filter(function(p) { return !(p.stock != null && Number(p.stock) <= 0); });
@@ -566,15 +585,14 @@ function renderProducts(els) {
                 '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.alt) + '" loading="lazy" width="400" height="400">' +
                 novoBadge +
                 saleBadge +
+                stockBadge +
             '</div>' +
             '<div class="product-body">' +
                 '<h3>' + escapeHtml(product.name) + '</h3>' +
                 '<div class="product-meta">' +
                     '<span class="badge">' + escapeHtml(categoryLabel) + '</span>' +
-                    materialBadge +
                     priceHtml +
                 '</div>' +
-                stockBadge +
                 '<p class="product-desc">' + escapeHtml(product.desc) + '</p>' +
                 buttonHtml +
             '</div>';
@@ -1166,6 +1184,15 @@ function populateFilterPills(els) {
     var existingPills = els.filterPills.querySelectorAll('.pill:not([data-filter="all"])');
     existingPills.forEach(function(p) { p.remove(); });
 
+    // "Novo" pseudo-filter for new items
+    var novoBtn = document.createElement("button");
+    novoBtn.className = "pill";
+    novoBtn.setAttribute("data-filter", "novo");
+    novoBtn.setAttribute("role", "tab");
+    novoBtn.setAttribute("aria-selected", "false");
+    novoBtn.textContent = "Novo";
+    els.filterPills.appendChild(novoBtn);
+
     Object.keys(siteData.categories).forEach(function(key) {
         var btn = document.createElement("button");
         btn.className = "pill";
@@ -1183,6 +1210,12 @@ function handleFilterClick(e, els) {
 
     activeFilter = pill.getAttribute("data-filter");
 
+    // Auto-sort newest-first when "Novo" is selected
+    if (activeFilter === "novo") {
+        activeSort = "newest";
+        updateSortUI(els, "newest");
+    }
+
     els.filterPills.querySelectorAll(".pill").forEach(function(p) {
         p.classList.remove("active");
         p.setAttribute("aria-selected", "false");
@@ -1191,6 +1224,67 @@ function handleFilterClick(e, els) {
     pill.setAttribute("aria-selected", "true");
 
     renderProducts(els);
+}
+
+/* -------------------------------------------
+   Custom Sort Dropdown
+   ------------------------------------------- */
+
+function updateSortUI(els, value) {
+    if (!els.sortMenu) return;
+    var items = els.sortMenu.querySelectorAll("li");
+    items.forEach(function(li) {
+        var isSelected = li.getAttribute("data-value") === value;
+        li.setAttribute("aria-selected", isSelected ? "true" : "false");
+        if (isSelected && els.sortValue) {
+            els.sortValue.textContent = li.textContent;
+        }
+    });
+}
+
+function setupSortDropdown(els) {
+    if (!els.sortToggle || !els.sortMenu || !els.sortControl) return;
+
+    function toggleMenu(open) {
+        var isOpen = typeof open === "boolean" ? open : els.sortMenu.hidden;
+        els.sortMenu.hidden = !isOpen;
+        els.sortToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        if (isOpen) {
+            els.sortControl.classList.add("open");
+        } else {
+            els.sortControl.classList.remove("open");
+        }
+    }
+
+    els.sortToggle.addEventListener("click", function(e) {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    els.sortMenu.addEventListener("click", function(e) {
+        var li = e.target.closest("li");
+        if (!li) return;
+        var val = li.getAttribute("data-value");
+        activeSort = val;
+        updateSortUI(els, val);
+        toggleMenu(false);
+        renderProducts(els);
+    });
+
+    // Close on outside click
+    document.addEventListener("click", function(e) {
+        if (!els.sortControl.contains(e.target)) {
+            toggleMenu(false);
+        }
+    });
+
+    // Close on Escape
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && !els.sortMenu.hidden) {
+            toggleMenu(false);
+            els.sortToggle.focus();
+        }
+    });
 }
 
 /* -------------------------------------------
@@ -1591,13 +1685,8 @@ function init() {
             });
         }
 
-        // Sort
-        if (els.sortSelect) {
-            els.sortSelect.addEventListener("change", function() {
-                activeSort = els.sortSelect.value;
-                renderProducts(els);
-            });
-        }
+        // Custom sort dropdown
+        setupSortDropdown(els);
 
         // Mobile nav
         if (els.navToggle) {
