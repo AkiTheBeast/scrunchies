@@ -561,6 +561,10 @@ a {
     gap: .25rem;
 }
 
+.checkout-form .form-field[hidden] {
+    display: none;
+}
+
 .checkout-form label {
     font-family: var(--heading);
     font-weight: 600;

@@ -273,14 +273,11 @@ function handleOrder(data) {
     var orderId = generateOrderId(ordersSheet);
     var now = new Date();
 
-    // Build order items JSON
-    var itemsJson = JSON.stringify(data.items.map(function(item) {
-      return {
-        id: item.id,
-        name: productNames[item.id] || item.id,
-        qty: item.qty
-      };
-    }));
+    // Build human-readable items list for the sheet
+    var itemsText = data.items.map(function(item) {
+      var name = productNames[item.id] || item.id;
+      return item.qty + "× " + name + " (" + item.id + ")";
+    }).join("\n");
 
     // Calculate total
     var total = 0;
@@ -303,7 +300,7 @@ function handleOrder(data) {
       sanitize(data.pickup),            // F: Preuzimanje
       sanitize(data.address || ""),     // G: Adresa
       sanitize(data.note || ""),        // H: Napomena
-      itemsJson,                        // I: Stavke
+      itemsText,                        // I: Stavke
       total,                            // J: Ukupno
       "Nova"                            // K: Status
     ]);
