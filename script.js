@@ -517,18 +517,9 @@ function renderStockBadge(stock, settings) {
    ------------------------------------------- */
 
 function renderProducts(els) {
-    var products;
-    if (activeFilter === "all") {
-        products = siteData.products;
-    } else if (activeFilter === "novo") {
-        var twoWeeksAgo = new Date();
-        twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
-        products = siteData.products.filter(function(p) {
-            return p.dateAdded && new Date(p.dateAdded) >= twoWeeksAgo;
-        });
-    } else {
-        products = siteData.products.filter(function(p) { return p.category === activeFilter; });
-    }
+    var products = activeFilter === "all"
+        ? siteData.products
+        : siteData.products.filter(function(p) { return p.category === activeFilter; });
 
     // Hide out-of-stock products
     products = products.filter(function(p) { return !(p.stock != null && Number(p.stock) <= 0); });
@@ -553,10 +544,10 @@ function renderProducts(els) {
         var categoryLabel = siteData.categories[product.category] || product.category;
         var stockBadge = renderStockBadge(product.stock, siteData.settings);
 
-        // Material badge
-        var materialBadge = "";
+        // Material text (subtle label under product name)
+        var materialText = "";
         if (product.material) {
-            materialBadge = '<span class="badge badge-material badge-material-' + escapeHtml(product.category) + '">' + escapeHtml(product.material) + '</span>';
+            materialText = '<span class="product-material">' + escapeHtml(product.material) + '</span>';
         }
 
         // NOVO badge (added within last 14 days)
@@ -585,13 +576,13 @@ function renderProducts(els) {
                 '<img src="' + escapeHtml(product.image) + '" alt="' + escapeHtml(product.alt) + '" loading="lazy" width="400" height="400">' +
                 novoBadge +
                 saleBadge +
-                stockBadge +
             '</div>' +
             '<div class="product-body">' +
                 '<h3>' + escapeHtml(product.name) + '</h3>' +
+                materialText +
                 '<div class="product-meta">' +
-                    '<span class="badge">' + escapeHtml(categoryLabel) + '</span>' +
                     priceHtml +
+                    stockBadge +
                 '</div>' +
                 '<p class="product-desc">' + escapeHtml(product.desc) + '</p>' +
                 buttonHtml +
@@ -1184,15 +1175,6 @@ function populateFilterPills(els) {
     var existingPills = els.filterPills.querySelectorAll('.pill:not([data-filter="all"])');
     existingPills.forEach(function(p) { p.remove(); });
 
-    // "Novo" pseudo-filter for new items
-    var novoBtn = document.createElement("button");
-    novoBtn.className = "pill";
-    novoBtn.setAttribute("data-filter", "novo");
-    novoBtn.setAttribute("role", "tab");
-    novoBtn.setAttribute("aria-selected", "false");
-    novoBtn.textContent = "Novo";
-    els.filterPills.appendChild(novoBtn);
-
     Object.keys(siteData.categories).forEach(function(key) {
         var btn = document.createElement("button");
         btn.className = "pill";
@@ -1209,12 +1191,6 @@ function handleFilterClick(e, els) {
     if (!pill) return;
 
     activeFilter = pill.getAttribute("data-filter");
-
-    // Auto-sort newest-first when "Novo" is selected
-    if (activeFilter === "novo") {
-        activeSort = "newest";
-        updateSortUI(els, "newest");
-    }
 
     els.filterPills.querySelectorAll(".pill").forEach(function(p) {
         p.classList.remove("active");
@@ -1237,7 +1213,11 @@ function updateSortUI(els, value) {
         var isSelected = li.getAttribute("data-value") === value;
         li.setAttribute("aria-selected", isSelected ? "true" : "false");
         if (isSelected && els.sortValue) {
-            els.sortValue.textContent = li.textContent;
+            // Get text without the check icon
+            var clone = li.cloneNode(true);
+            var icon = clone.querySelector(".sort-check");
+            if (icon) icon.remove();
+            els.sortValue.textContent = clone.textContent.trim();
         }
     });
 }
@@ -1481,6 +1461,26 @@ function setupInquiryForm(els) {
    Scrolled Header
    ------------------------------------------- */
 
+/* -------------------------------------------
+   Collapsible Section Toggle Text
+   ------------------------------------------- */
+
+function setupCollapsibleToggles() {
+    document.querySelectorAll(".collapsible-section").forEach(function(details) {
+        var toggle = details.querySelector(".collapsible-toggle");
+        if (!toggle) return;
+
+        function updateText() {
+            var icon = toggle.querySelector(".collapsible-icon");
+            toggle.textContent = details.open ? "Sakrij " : "Prikaži ";
+            if (icon) toggle.appendChild(icon);
+        }
+
+        details.addEventListener("toggle", updateText);
+        updateText();
+    });
+}
+
 function setupScrolledHeader(els) {
     if (!els.siteHeader) return;
 
@@ -1604,6 +1604,7 @@ function init() {
         setupInquiryForm(els);
         setupScrolledHeader(els);
         setupProductModal(els);
+        setupCollapsibleToggles();
 
         // Mobile bottom bar handlers
         if (els.mobileBottomBar) {
