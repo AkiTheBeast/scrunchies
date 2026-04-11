@@ -447,32 +447,77 @@ function sendOwnerEmail(settings, orderId, data, productNames, total, stockAfter
 }
 
 function sendCustomerEmail(data, orderId, productNames, total, now) {
-  var itemsList = "";
+  var dateStr = Utilities.formatDate(now, "Europe/Belgrade", "dd.MM.yyyy.");
+  var firstName = sanitizeHtml(data.name.split(" ")[0]);
+
+  var itemsHtml = "";
   data.items.forEach(function(item) {
     var name = productNames[item.id] || item.id;
-    itemsList += "  • " + name + " × " + item.qty + "\n";
+    itemsHtml += "<tr>" +
+      "<td style='padding:10px 12px;border-bottom:1px solid #e8e4df'>" + sanitizeHtml(name) + "</td>" +
+      "<td style='padding:10px 12px;border-bottom:1px solid #e8e4df;text-align:center'>×" + item.qty + "</td>" +
+      "</tr>";
   });
 
-  var body =
-    "Zdravo " + data.name.split(" ")[0] + ",\n\n" +
-    "Hvala na narudžbini! Primili smo tvoj zahtev i javićemo ti se u najkraćem roku.\n\n" +
-    "Broj narudžbine: " + orderId + "\n\n" +
-    "Tvoja narudžbina:\n" +
-    itemsList +
-    "\nUKUPNO: " + formatPriceGS(total) + "\n\n" +
-    "Način preuzimanja: " + data.pickup + "\n" +
-    (data.address ? "Adresa: " + data.address + "\n" : "") +
-    "\nSve narudžbine se šalju ponedeljkom. Ako imaš pitanja,\n" +
-    "javi nam se na Instagram (@_purple_star_13) ili\n" +
-    "odgovori na ovaj email.\n\n" +
-    "Hvala što podržavaš ručni rad! 💜\n\n" +
-    "— Purple Star";
+  var html =
+    "<div style='font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;background:#faf7f4;border-radius:12px;overflow:hidden'>" +
+
+    // Header
+    "<div style='background:linear-gradient(135deg,#c9a087,#b8876c);padding:28px 24px;text-align:center'>" +
+    "<h1 style='margin:0;color:#fff;font-size:20px;font-weight:700'>Purple Star ⭐</h1>" +
+    "</div>" +
+
+    // Body
+    "<div style='padding:28px 24px'>" +
+    "<p style='font-size:16px;color:#2a2520;margin:0 0 16px'>Zdravo " + firstName + ",</p>" +
+    "<p style='font-size:15px;color:#5c534b;margin:0 0 24px;line-height:1.6'>Hvala na narudžbini! Primili smo tvoj zahtev i javićemo ti se u najkraćem roku.</p>" +
+
+    // Order info box
+    "<div style='background:#fff;border:1px solid #e8e4df;border-radius:8px;padding:16px 18px;margin-bottom:24px'>" +
+    "<p style='margin:0 0 4px;font-size:13px;color:#8a7f76;text-transform:uppercase;letter-spacing:.05em'>Broj narudžbine</p>" +
+    "<p style='margin:0 0 16px;font-size:18px;font-weight:700;color:#2a2520'>" + sanitizeHtml(orderId) + "</p>" +
+    "<p style='margin:0 0 4px;font-size:13px;color:#8a7f76'>Datum</p>" +
+    "<p style='margin:0;font-size:14px;color:#2a2520'>" + sanitizeHtml(dateStr) + "</p>" +
+    "</div>" +
+
+    // Items table
+    "<table style='width:100%;border-collapse:collapse;margin-bottom:16px'>" +
+    "<tr style='background:#f3eeea'>" +
+    "<th style='padding:10px 12px;text-align:left;font-size:13px;color:#8a7f76;text-transform:uppercase;letter-spacing:.03em'>Proizvod</th>" +
+    "<th style='padding:10px 12px;text-align:center;font-size:13px;color:#8a7f76;text-transform:uppercase;letter-spacing:.03em'>Kom</th>" +
+    "</tr>" +
+    itemsHtml +
+    "</table>" +
+    "<p style='text-align:right;font-size:17px;font-weight:700;color:#2a2520;margin:0 0 24px'>Ukupno: " + formatPriceGS(total) + "</p>" +
+
+    // Delivery info
+    "<div style='background:#f3eeea;border-radius:8px;padding:14px 18px;margin-bottom:24px'>" +
+    "<p style='margin:0;font-size:14px;color:#5c534b'><strong>Način preuzimanja:</strong> " + sanitizeHtml(data.pickup) + "</p>" +
+    (data.address ? "<p style='margin:8px 0 0;font-size:14px;color:#5c534b'><strong>Adresa:</strong> " + sanitizeHtml(data.address) + "</p>" : "") +
+    "</div>" +
+
+    // Schedule reminder
+    "<p style='font-size:14px;color:#5c534b;line-height:1.6;margin:0 0 8px'>" +
+    "📦 Sve narudžbine se šalju <strong>ponedeljkom</strong>. Narudžbine primljene posle nedelje u podne idu sledećeg ponedeljka." +
+    "</p>" +
+    "<p style='font-size:14px;color:#5c534b;line-height:1.6;margin:0 0 8px'>Plaćanje je isključivo <strong>gotovinom</strong> — prilikom preuzimanja ili pouzećem.</p>" +
+
+    "</div>" +
+
+    // Footer
+    "<div style='border-top:1px solid #e8e4df;padding:20px 24px;text-align:center'>" +
+    "<p style='margin:0 0 6px;font-size:13px;color:#8a7f76'>Imaš pitanja? Javi nam se na Instagram</p>" +
+    "<p style='margin:0;font-size:14px'><a href='https://instagram.com/_purple_star_13' style='color:#c9a087;text-decoration:none;font-weight:600'>@_purple_star_13</a></p>" +
+    "<p style='margin:16px 0 0;font-size:13px;color:#b3a99f'>Hvala što podržavaš ručni rad! 💜</p>" +
+    "</div>" +
+
+    "</div>";
 
   MailApp.sendEmail({
     to: data.email,
-    subject: "Tvoja narudžbina " + orderId + " — Purple Star ⭐",
-    body: body,
-    replyTo: data.email
+    subject: "Potvrda narudžbine " + orderId + " — Purple Star",
+    htmlBody: html,
+    name: "Purple Star"
   });
 }
 

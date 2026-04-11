@@ -141,8 +141,12 @@
                         </div>
                     </fieldset>
                     <div class="form-field" id="address-field" hidden>
-                        <label for="form-address">Adresa za dostavu *</label>
-                        <input id="form-address" name="Adresa" type="text" autocomplete="street-address" placeholder="Ulica, broj, grad, poštanski broj">
+                        <label for="form-address">Ulica i broj *</label>
+                        <input id="form-address" name="Adresa" type="text" autocomplete="street-address" placeholder="npr. Vojvode Mišića 12">
+                    </div>
+                    <div class="form-field" id="city-field" hidden>
+                        <label for="form-city">Grad i poštanski broj *</label>
+                        <input id="form-city" name="Grad" type="text" autocomplete="address-level2" placeholder="npr. Novi Sad, 21000">
                     </div>
                     <div class="form-field">
                         <label for="form-note">Napomena (opciono)</label>

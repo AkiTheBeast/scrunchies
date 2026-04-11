@@ -434,6 +434,7 @@ a {
 
 .cart-drawer-footer {
     padding: 1rem 1.25rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
     border-top: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -1136,6 +1137,12 @@ h3 {
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow);
+}
+
+@media (hover: none) {
+    .product-card:hover {
+        transform: none;
+    }
 }
 
 .product-card > img,
@@ -2184,6 +2191,30 @@ h3 {
 
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .product-body {
+        padding: .75rem;
+        gap: .4rem;
+    }
+
+    .product-body h3 {
+        font-size: .95rem;
+    }
+
+    .product-meta {
+        gap: .35rem;
+    }
+
+    .price {
+        font-size: .9rem;
+    }
+
+    .btn-small {
+        font-size: .78rem;
+        padding: .45rem .75rem;
+        min-height: 36px;
     }
 
     .steps-grid {
@@ -2230,6 +2261,31 @@ h3 {
         flex-direction: column;
         align-items: stretch;
         gap: .75rem;
+    }
+
+    /* Checkout form refinements */
+    .checkout-form {
+        gap: .6rem;
+    }
+
+    .checkout-form input,
+    .checkout-form textarea {
+        font-size: 16px; /* Prevents iOS zoom on input focus */
+    }
+
+    .checkout-form .radio-label {
+        padding: .5rem .65rem;
+        font-size: .82rem;
+    }
+
+    .cart-confirmation {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Hero adjustments */
+    .hero {
+        min-height: auto;
+        padding: 3rem 0 2.5rem;
     }
 
     .filter-pills {
@@ -2318,6 +2374,27 @@ h3 {
 
     .hero-cta .btn {
         width: 100%;
+    }
+
+    .marquee-text {
+        font-size: .72rem;
+        letter-spacing: .08em;
+    }
+
+    .product-body h3 {
+        font-size: .95rem;
+    }
+
+    .product-desc {
+        font-size: .82rem;
+    }
+
+    .collapsible-header {
+        gap: .75rem;
+    }
+
+    .collapsible-toggle {
+        font-size: .78rem;
     }
 }
 
@@ -2763,8 +2840,21 @@ h3 {
         transform: translateY(0);
     }
 
+    .product-modal-content {
+        padding: 1.25rem;
+        padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    }
+
     .modal-product-grid {
         grid-template-columns: 1fr;
+    }
+
+    .modal-info h2 {
+        font-size: 1.25rem;
+    }
+
+    .gallery-main img {
+        aspect-ratio: 4 / 3;
     }
 
     .similar-grid {

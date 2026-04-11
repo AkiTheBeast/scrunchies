@@ -405,6 +405,7 @@ function getElements() {
         testimonialsGrid: document.getElementById("testimonials-grid"),
         sundayNotice: document.getElementById("sunday-notice"),
         addressField: document.getElementById("address-field"),
+        cityField: document.getElementById("city-field"),
         cartToggle: document.getElementById("cart-toggle"),
         cartCount: document.getElementById("cart-count"),
         cartOverlay: document.getElementById("cart-overlay"),
@@ -1276,14 +1277,15 @@ function setupDeliveryToggle(els) {
 
     var radios = els.form.querySelectorAll('input[name="Preuzimanje"]');
     var addressInput = els.addressField.querySelector("input");
+    var cityInput = els.cityField ? els.cityField.querySelector("input") : null;
 
     radios.forEach(function(radio) {
         radio.addEventListener("change", function() {
             var needsAddress = radio.value !== "Lično u Pančevu";
             els.addressField.hidden = !needsAddress;
-            if (addressInput) {
-                addressInput.required = needsAddress;
-            }
+            if (els.cityField) els.cityField.hidden = !needsAddress;
+            if (addressInput) addressInput.required = needsAddress;
+            if (cityInput) cityInput.required = needsAddress;
         });
     });
 }
@@ -1311,13 +1313,18 @@ function setupFormValidation(els) {
         // Collect form data
         var formData = new FormData(els.form);
 
+        // Concatenate address fields
+        var street = (formData.get("Adresa") || "").trim();
+        var city = (formData.get("Grad") || "").trim();
+        var fullAddress = [street, city].filter(Boolean).join(", ");
+
         var orderData = {
             action: "order",
             name: formData.get("Ime") || "",
             email: formData.get("Email") || "",
             phone: formData.get("Telefon") || "",
             pickup: formData.get("Preuzimanje") || "",
-            address: formData.get("Adresa") || "",
+            address: fullAddress,
             note: formData.get("Napomena") || "",
             items: cart.map(function(item) {
                 return { id: item.id, qty: item.qty };
