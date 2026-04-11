@@ -8,7 +8,7 @@
 
 var config = {
     name: "Purple Star",
-    email: "info@example.com",
+    email: "pa.purple.star@gmail.com",
     instagram: "https://instagram.com/_purple_star_13",
 
     // IMPORTANT: Replace this URL after deploying Apps Script
@@ -340,7 +340,12 @@ function updateCartQty(productId, delta) {
 
     for (var i = 0; i < cart.length; i++) {
         if (cart[i].id === productId) {
-            cart[i].qty = Math.max(1, Math.min(maxStock, cart[i].qty + delta));
+            var newQty = cart[i].qty + delta;
+            if (newQty < 1) {
+                cart.splice(i, 1); // Remove item when qty drops below 1
+            } else {
+                cart[i].qty = Math.min(maxStock, newQty);
+            }
             break;
         }
     }
@@ -662,9 +667,9 @@ function buildModalContent(product, els) {
     }
     galleryHtml += '</div>';
 
-    // Material badge
-    var materialHtml = product.material
-        ? '<span class="badge badge-material badge-material-' + escapeHtml(product.category) + '">' + escapeHtml(product.material) + '</span>'
+    // Material text (subtle, under name)
+    var materialText = product.material
+        ? '<span class="product-material">' + escapeHtml(product.material) + '</span>'
         : '';
 
     // Price (with sale)
@@ -677,11 +682,8 @@ function buildModalContent(product, els) {
     // Info panel
     var infoHtml = '<div class="modal-info">';
     infoHtml += '<h2>' + escapeHtml(product.name) + '</h2>';
-    infoHtml += '<div class="product-meta">' +
-        '<span class="badge">' + escapeHtml(categoryLabel) + '</span>' +
-        materialHtml + priceHtml +
-        '</div>';
-    infoHtml += stockBadge;
+    infoHtml += materialText;
+    infoHtml += '<div class="product-meta">' + priceHtml + stockBadge + '</div>';
     infoHtml += '<p class="product-desc">' + escapeHtml(product.desc) + '</p>';
     infoHtml += '<button class="btn btn-primary btn-add-cart" data-id="' + escapeHtml(product.id) + '">Dodaj u korpu</button>';
     infoHtml += '</div>';
@@ -907,7 +909,14 @@ function renderCartUI(els) {
             els.cartBody.innerHTML = '<p class="cart-empty-msg">Korpa je prazna.</p>';
             if (els.cartFooter) els.cartFooter.hidden = true;
         } else {
-            els.cartBody.innerHTML = "";
+            els.cartBody.innerHTML = '<div class="cart-clear-wrap"><button class="cart-clear-btn" type="button">Isprazni korpu</button></div>';
+
+            // Clear all handler
+            els.cartBody.querySelector(".cart-clear-btn").addEventListener("click", function() {
+                saveCart([]);
+                renderCartUI(els);
+            });
+
             cart.forEach(function(item) {
                 var product = findProduct(item.id);
                 if (!product) return;
@@ -1255,6 +1264,15 @@ function setupSortDropdown(els) {
     // Close on outside click
     document.addEventListener("click", function(e) {
         if (!els.sortControl.contains(e.target)) {
+            toggleMenu(false);
+        }
+    });
+
+    // Close when clicking on the backdrop area (mobile bottom sheet)
+    // The ::before pseudo-element is on .sort-control, so clicks on
+    // the backdrop register as clicking .sort-control itself
+    els.sortControl.addEventListener("click", function(e) {
+        if (e.target === els.sortControl && !els.sortMenu.hidden) {
             toggleMenu(false);
         }
     });

@@ -432,6 +432,29 @@ a {
     color: #dc2626;
 }
 
+.cart-clear-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .5rem;
+}
+
+.cart-clear-btn {
+    background: none;
+    border: none;
+    font-family: var(--body);
+    font-size: .78rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: .2rem 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color .2s ease;
+}
+
+.cart-clear-btn:hover {
+    color: var(--danger, #dc2626);
+}
+
 .cart-drawer-footer {
     padding: 1rem 1.25rem;
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
