@@ -276,6 +276,10 @@ a {
     line-height: 1;
 }
 
+.cart-count[hidden] {
+    display: none;
+}
+
 /* --- Cart Drawer --- */
 
 .cart-overlay {
@@ -462,6 +466,10 @@ a {
     display: flex;
     flex-direction: column;
     gap: .75rem;
+}
+
+.cart-drawer-footer[hidden] {
+    display: none;
 }
 
 .cart-total {
@@ -2477,6 +2485,10 @@ h3 {
     padding: 0 4px;
     text-transform: none !important;
     letter-spacing: 0 !important;
+}
+
+.bottom-bar-badge[hidden] {
+    display: none;
 }
 
 @media (max-width: 768px) {
