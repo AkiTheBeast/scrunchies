@@ -1634,7 +1634,10 @@ function init() {
             els.mobileBottomBar.querySelectorAll(".bottom-bar-btn").forEach(function(btn) {
                 btn.addEventListener("click", function() {
                     var target = btn.getAttribute("data-target");
-                    if (target === "products") {
+                    if (target === "home") {
+                        closeCart(els);
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    } else if (target === "products") {
                         closeCart(els);
                         var productsSection = document.getElementById("products");
                         if (productsSection) productsSection.scrollIntoView({ behavior: "smooth" });
@@ -1651,6 +1654,34 @@ function init() {
                     }
                 });
             });
+
+            // Scroll-based active state tracking
+            var bottomBarBtns = els.mobileBottomBar.querySelectorAll(".bottom-bar-btn");
+            var sectionMap = [
+                { target: "home", el: document.querySelector(".hero") },
+                { target: "products", el: document.getElementById("products") },
+                { target: "order", el: document.getElementById("how-to-order") }
+            ];
+
+            function updateBottomBarActive() {
+                var scrollY = window.scrollY + window.innerHeight / 3;
+                var activeTarget = "home";
+                for (var i = 0; i < sectionMap.length; i++) {
+                    if (sectionMap[i].el && sectionMap[i].el.offsetTop <= scrollY) {
+                        activeTarget = sectionMap[i].target;
+                    }
+                }
+                bottomBarBtns.forEach(function(b) {
+                    if (b.getAttribute("data-target") === activeTarget) {
+                        b.classList.add("active");
+                    } else {
+                        b.classList.remove("active");
+                    }
+                });
+            }
+
+            window.addEventListener("scroll", updateBottomBarActive, { passive: true });
+            updateBottomBarActive();
         }
 
         // Clean stale cart items and restore from localStorage
