@@ -903,24 +903,7 @@ h3 {
     z-index: 1;
 }
 
-/* Hero label pill override */
-.hero .label {
-    background: var(--brand-light);
-    color: var(--brand-dark);
-    padding: .4rem .9rem .4rem .7rem;
-    border-radius: var(--radius-pill);
-    font-size: .78rem;
-    letter-spacing: .08em;
-    margin-bottom: 1rem;
-}
-
-.hero .label::before {
-    display: none;
-}
-
-.hero .label i {
-    font-size: 1.1em;
-}
+/* Hero label pill override — removed, no longer used */
 
 .hero-desc {
     color: var(--text-muted);
@@ -933,7 +916,45 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     gap: .75rem;
-    margin-top: 1.5rem;
+    align-items: center;
+    margin-top: 1.75rem;
+}
+
+.hero-cta .btn-primary {
+    gap: .45rem;
+}
+
+/* Ghost link-style CTA */
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    padding: .75rem .25rem;
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--brand-dark);
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: color var(--transition), gap var(--transition);
+    min-height: 48px;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+    color: var(--brand);
+    gap: .6rem;
+}
+
+.btn-ghost i {
+    font-size: 1.1em;
+    transition: transform var(--transition);
+}
+
+.btn-ghost:hover i {
+    transform: translateX(3px);
 }
 
 /* Hero image with organic shape */
@@ -972,32 +993,6 @@ h3 {
 @keyframes heroRingMorph {
     0%   { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
     100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
-}
-
-/* Floating handmade badge */
-.hero-badge {
-    position: absolute;
-    top: -10px;
-    right: 16px;
-    background: var(--brand);
-    color: #fff;
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    padding: .45rem .85rem;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow);
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    animation: heroBadgeFloat 3s ease-in-out infinite;
-}
-
-@keyframes heroBadgeFloat {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-6px); }
 }
 
 /* Hero accent word */
@@ -2391,17 +2386,11 @@ h3 {
 
     .hero-cta {
         flex-direction: column;
+        align-items: stretch;
     }
 
-    .hero-cta .btn {
-        width: 100%;
-    }
-
-    .hero-badge {
-        font-size: .65rem;
-        padding: .35rem .7rem;
-        top: -6px;
-        right: 10px;
+    .hero-cta .btn-ghost {
+        justify-content: center;
     }
 
     .marquee-text {
