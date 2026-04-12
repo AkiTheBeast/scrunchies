@@ -903,6 +903,25 @@ h3 {
     z-index: 1;
 }
 
+/* Hero label pill override */
+.hero .label {
+    background: var(--brand-light);
+    color: var(--brand-dark);
+    padding: .4rem .9rem .4rem .7rem;
+    border-radius: var(--radius-pill);
+    font-size: .78rem;
+    letter-spacing: .08em;
+    margin-bottom: 1rem;
+}
+
+.hero .label::before {
+    display: none;
+}
+
+.hero .label i {
+    font-size: 1.1em;
+}
+
 .hero-desc {
     color: var(--text-muted);
     font-size: 1.1rem;
@@ -917,18 +936,68 @@ h3 {
     margin-top: 1.5rem;
 }
 
+/* Hero image with organic shape */
+.hero-image {
+    position: relative;
+}
+
 .hero-image img {
-    border-radius: var(--radius-lg);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     box-shadow: var(--shadow-lg);
     width: 100%;
     height: auto;
     object-fit: cover;
-    max-height: 420px;
-    transition: transform 600ms cubic-bezier(.4, 0, .2, 1);
+    max-height: 450px;
+    transition: transform 600ms cubic-bezier(.4, 0, .2, 1),
+                border-radius 800ms cubic-bezier(.4, 0, .2, 1);
 }
 
 .hero-image:hover img {
     transform: scale(1.02) rotate(-.5deg);
+    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+}
+
+/* Decorative dashed ring behind image */
+.hero-image::before {
+    content: "";
+    position: absolute;
+    inset: -14px;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    border: 2px dashed var(--brand);
+    opacity: .25;
+    pointer-events: none;
+    animation: heroRingMorph 8s ease-in-out infinite alternate;
+}
+
+@keyframes heroRingMorph {
+    0%   { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+    100% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+}
+
+/* Floating handmade badge */
+.hero-badge {
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    background: var(--brand);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: .45rem .85rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    animation: heroBadgeFloat 3s ease-in-out infinite;
+}
+
+@keyframes heroBadgeFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
 }
 
 /* Hero accent word */
@@ -2062,13 +2131,13 @@ h3 {
         gap: 2rem;
     }
 
-    .hero-image {
-        order: -1;
+    .hero-image img {
+        max-height: 380px;
+        width: 100%;
     }
 
-    .hero-image img {
-        max-height: 400px;
-        width: 100%;
+    .hero-image::before {
+        inset: -10px;
     }
 
     .about-grid {
@@ -2326,6 +2395,13 @@ h3 {
 
     .hero-cta .btn {
         width: 100%;
+    }
+
+    .hero-badge {
+        font-size: .65rem;
+        padding: .35rem .7rem;
+        top: -6px;
+        right: 10px;
     }
 
     .marquee-text {
