@@ -1580,17 +1580,15 @@ function observeRevealElements() {
 function addRevealClasses() {
     var selectors = [
         ".section-header",
-        ".step-card",
-        ".delivery-card",
+        ".journey-step",
+        ".journey-note",
         ".about-content",
         ".about-image",
         ".contact-info",
         ".contact-form",
         ".hero-content",
         ".hero-image",
-        ".faq-list",
-        ".payment-info",
-        ".order-schedule"
+        ".faq-list"
     ];
 
     document.querySelectorAll(selectors.join(", ")).forEach(function(el) {

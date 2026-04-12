@@ -1300,29 +1300,42 @@ h3 {
     padding-top: 1rem;
 }
 
-/* --- Steps --- */
+/* --- Journey Timeline --- */
 
-.steps-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.journey {
+    max-width: 560px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 2rem;
 }
 
-.step-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    transition: transform var(--transition), box-shadow var(--transition);
+/* Vertical connecting line */
+.journey::before {
+    content: "";
+    position: absolute;
+    left: 21px;
+    top: 32px;
+    bottom: 32px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--brand), var(--brand-dark));
+    opacity: .25;
+    border-radius: 1px;
 }
 
-.step-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
+.journey-step {
+    display: flex;
+    gap: 1.25rem;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.journey-step:last-child {
+    padding-bottom: 0;
+}
+
+.journey-marker {
+    flex-shrink: 0;
+    z-index: 1;
 }
 
 .step-num {
@@ -1337,29 +1350,32 @@ h3 {
     font-family: var(--heading);
     font-weight: 700;
     font-size: 1.1rem;
-    margin-bottom: .75rem;
     box-shadow: 0 4px 14px rgba(201, 160, 135, .25);
 }
 
-.step-card p {
+.journey-content h3 {
+    margin: 0 0 .35rem;
+    font-size: 1.05rem;
+    line-height: 44px; /* align with step-num circle */
+}
+
+.journey-content p {
     color: var(--text-muted);
     margin: 0;
-    font-size: .95rem;
+    font-size: .93rem;
+    line-height: 1.55;
 }
 
-/* --- Order Schedule --- */
-
-.order-schedule {
-    margin-top: 2rem;
-    padding: 1.25rem 1.5rem;
+.journey-note {
+    max-width: 560px;
+    margin: 1.5rem auto 0;
+    padding: 1rem 1.25rem;
     background: linear-gradient(135deg, var(--brand-light), rgba(156, 170, 151, .1));
     border-radius: var(--radius-sm);
+    font-size: .9rem;
+    color: var(--text-muted);
     text-align: center;
-}
-
-.order-schedule p {
-    margin: 0;
-    font-size: .95rem;
+    line-height: 1.5;
 }
 
 /* --- About --- */
@@ -1403,100 +1419,6 @@ h3 {
 
 .about-image:hover img {
     transform: scale(1.02) rotate(.5deg);
-}
-
-/* --- Delivery --- */
-
-.delivery-info-block {
-    max-width: 560px;
-    margin: 0 auto;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-}
-
-.delivery-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.15rem 1.5rem;
-}
-
-.delivery-row + .delivery-row {
-    border-top: 1px solid var(--border);
-}
-
-.delivery-row-icon {
-    width: 42px;
-    height: 42px;
-    min-width: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-light);
-    border-radius: 50%;
-    color: var(--brand-dark);
-    font-size: 1.2rem;
-}
-
-.delivery-row-icon--sage {
-    background: rgba(156, 170, 151, .15);
-    color: #6b7f65;
-}
-
-.delivery-row-text {
-    display: flex;
-    flex-direction: column;
-    gap: .15rem;
-    flex: 1;
-    min-width: 0;
-}
-
-.delivery-row-text strong {
-    font-size: .95rem;
-    font-family: var(--heading);
-}
-
-.delivery-row-text span {
-    font-size: .85rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-}
-
-.delivery-tag {
-    font-size: .7rem;
-    font-weight: 700;
-    font-family: var(--heading);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    padding: .3rem .65rem;
-    border-radius: var(--radius-pill);
-    white-space: nowrap;
-}
-
-.delivery-tag--free {
-    background: rgba(156, 170, 151, .15);
-    color: #5a6e55;
-}
-
-.delivery-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--brand) 50%, transparent);
-    margin: 0 1.5rem;
-    opacity: .3;
-}
-
-.delivery-note {
-    max-width: 560px;
-    margin: 1.25rem auto 0;
-    padding: 1rem 1.25rem;
-    background: linear-gradient(135deg, var(--brand-light), rgba(156, 170, 151, .1));
-    border-radius: var(--radius-sm);
-    font-size: .9rem;
-    color: var(--text-muted);
-    text-align: center;
-    line-height: 1.5;
 }
 
 /* --- Contact --- */
@@ -2085,10 +2007,6 @@ h3 {
     border-bottom: 1px solid var(--border);
 }
 
-.step-card:nth-child(1) { transition-delay: 0ms; }
-.step-card:nth-child(2) { transition-delay: 100ms; }
-.step-card:nth-child(3) { transition-delay: 200ms; }
-
 .testimonial-card:nth-child(1) { transition-delay: 0ms; }
 .testimonial-card:nth-child(2) { transition-delay: 100ms; }
 .testimonial-card:nth-child(3) { transition-delay: 200ms; }
@@ -2253,32 +2171,32 @@ h3 {
         min-height: 36px;
     }
 
-    .steps-grid {
-        grid-template-columns: 1fr;
+    .journey {
+        padding-left: 1.5rem;
     }
 
-    .delivery-row {
-        padding: 1rem 1.15rem;
-        gap: .75rem;
+    .journey::before {
+        left: 17px;
     }
 
-    .delivery-row-icon {
+    .journey-step {
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .step-num {
         width: 36px;
         height: 36px;
-        min-width: 36px;
-        font-size: 1.1rem;
+        font-size: .95rem;
     }
 
-    .delivery-row-text strong {
-        font-size: .9rem;
+    .journey-content h3 {
+        font-size: .95rem;
+        line-height: 36px;
     }
 
-    .delivery-row-text span {
-        font-size: .82rem;
-    }
-
-    .delivery-divider {
-        margin: 0 1.15rem;
+    .journey-content p {
+        font-size: .88rem;
     }
 
     .testimonials-grid {
